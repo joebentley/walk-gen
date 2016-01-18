@@ -1,0 +1,13 @@
+
+.Trash
+*.dSYM
+
+walkrun
+runtests
+
+#*
+.#*
+
+tags
+
+*.o
