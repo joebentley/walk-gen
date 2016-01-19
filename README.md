@@ -14,12 +14,14 @@ starting at the lowest and then increasing:
 ![Comparison of sticking probabilities](diagrams/comparison.png)
 
 To build:
+--------
 
-   make clean && make
+   `make clean && make`
 
 To build tests:
+---------------
 
-   make tests
+   `make tests`
 
 The built-in lattice types are:
 
