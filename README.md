@@ -11,7 +11,7 @@ doesn't always stick.
 Here is a Point DLA generated with various different sticking probabilities,
 starting at the lowest and then increasing:
 
-![Comparison of sticking probabilities][diagrams/comparison.png]
+![Comparison of sticking probabilities](diagrams/comparison.png)
 
 To build:
 
