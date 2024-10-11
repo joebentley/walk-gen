@@ -47,28 +47,28 @@ int main(int argc, char *argv[])
             accumulate = true;
         } else if (!std::strcmp(argv[n], "-s")) {
             square = true;
-	} else if (!std::strcmp(argv[n], "--3D")) {
-	    simplecubic = true;
-	} else if (!std::strcmp(argv[n], "--hex")) {
-	    hexagonal = true;
+        } else if (!std::strcmp(argv[n], "--3D")) {
+            simplecubic = true;
+        } else if (!std::strcmp(argv[n], "--hex")) {
+            hexagonal = true;
         } else if (!std::strcmp(argv[n], "-d")) {
             distance = true;
 
-	    /* If not on last arg */
-	    if (n != argc - 1)
-		distance_count = std::atof(argv[++n]);
+        /* If not on last arg */
+        if (n != argc - 1)
+            distance_count = std::atof(argv[++n]);
         } else if (!std::strcmp(argv[n], "--DLA")) {
             pointDLA = true;
         } else if (!std::strcmp(argv[n], "--lineDLA")) {
             lineDLA = true;
-	} else if (!std::strcmp(argv[n], "--linewidth")) {
-	    line_width = std::atof(argv[++n]);
+        } else if (!std::strcmp(argv[n], "--linewidth")) {
+            line_width = std::atof(argv[++n]);
         } else if (!std::strcmp(argv[n], "--stickiness")) {
             stickiness = std::atof(argv[++n]);
         } else if (!std::strcmp(argv[n], "--fractal")) {
             fractal_dimension = true;
-	} else if (!std::strcmp(argv[n], "--silent")) {
-	    suppress_output = true;
+        } else if (!std::strcmp(argv[n], "--silent")) {
+            suppress_output = true;
         } else if (!(walk_length = std::atoi(argv[n]))) {
             std::cout << USAGE << std::endl;
             return -1;
