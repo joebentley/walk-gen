@@ -27,11 +27,14 @@ parser = argparse.ArgumentParser(prog='generate_video')
 parser.add_argument('filename')
 parser.add_argument('-f', '--fps', default=60)
 parser.add_argument('-s', '--size', default=300) # width = height
-parser.add_argument('-r', '--rescale', default=2)
+parser.add_argument('-r', '--rescale', default=3)
+parser.add_argument('-k', '--skip', default=1)
 
 args = parser.parse_args()
 
 # You may have to edit these if your DLA is too big
+scale = args.rescale
+skip = int(args.skip)
 width = args.size
 height = args.size
 image = Image.new('1', (width, height), 1)
@@ -39,16 +42,24 @@ image = Image.new('1', (width, height), 1)
 with open(args.filename) as file:
     with tempfile.TemporaryDirectory() as tmpdirname:
         Path("videos").mkdir(parents=True, exist_ok=True)
-        for i, line in enumerate(file):
+        
+        counter = 0
+        i = 0
+        for line in file:
             x, y = map(lambda s: int(s.strip()), line.split(','))
             x += width // 2
             y += height // 2
             image.putpixel((x, y), 0)
-            if args.rescale > 1:
-                scaled = image.resize((width * 2, height * 2))
-                scaled.save(f"{tmpdirname}/{str(i).zfill(5)}.png")
-            else:
-                image.save(f"{tmpdirname}/{str(i).zfill(5)}.png")
+
+            if counter >= skip:
+                if scale > 1:
+                    scaled = image.resize((width * scale, height * scale))
+                    scaled.save(f"{tmpdirname}/{str(i).zfill(5)}.png")
+                else:
+                    image.save(f"{tmpdirname}/{str(i).zfill(5)}.png")
+                i += 1
+                counter = 0
+            counter += 1
 
         video_filename = get_next_available_filename("videos")
         os.system(f"ffmpeg -f image2 -r {args.fps} -i \
