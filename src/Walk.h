@@ -8,9 +8,9 @@
 
 #include "Lattice.h"
 
-/* Random number generator parameters used across this program */
+// Global used just in this file
 namespace WalkRNG {
-    /* Whether or not we've generated a new random seed since program start */
+    // Whether or not we've generated a new random seed since program start
     extern bool random_seeded;
 };
 
@@ -18,18 +18,14 @@ namespace WalkRNG {
 /* Class to perform a random walk on an N-dimensional lattice */
 template<unsigned int N>
 class Walk : public std::vector<Vector<N> > {
- private:
-    Lattice<N> lattice;
-
- public:
- Walk(Lattice<N> lattice) : lattice(lattice) {
-	/* If we haven't seeded the RNG yet... */
-	if (!WalkRNG::random_seeded) {
-		std::srand((unsigned int)std::time(0));
-	    WalkRNG::random_seeded = true;
-	}
+public:
+    Walk(Lattice<N> lattice) : lattice(lattice) {
+        /* If we haven't seeded the RNG yet... */
+        if (!WalkRNG::random_seeded) {
+            std::srand((unsigned int)std::time(0));
+            WalkRNG::random_seeded = true;
+        }
     }
-
 
     /**
      * Generate random walk on the lattice of length `length` modifying in place
@@ -37,24 +33,24 @@ class Walk : public std::vector<Vector<N> > {
      * Clears the current walk.
      */
     Walk<N> &generate(int length) {
-	this->clear();
+        this->clear();
 
-	/* Get the new translation set for this lattice */
-	std::vector<Vector<N> > translation_set = this->lattice.getTranslationSet();
+        /* Get the new translation set for this lattice */
+        std::vector<Vector<N> > translation_set = this->lattice.getTranslationSet();
 
-	for (int i = 0; i < length; ++i) {
-	    /* Get random index for the translation_set */
-	    size_t random_index;
-		random_index = std::rand() % translation_set.size();
+        for (int i = 0; i < length; ++i) {
+            /* Get random index for the translation_set */
+            size_t random_index;
+            random_index = std::rand() % translation_set.size();
 
-	    /* Get the element */
-	    Vector<N> random_element = translation_set.at(random_index);
+            /* Get the element */
+            Vector<N> random_element = translation_set.at(random_index);
 
-	    /* Add it to the walk */
-	    this->push_back(random_element);
-	}
+            /* Add it to the walk */
+            this->push_back(random_element);
+        }
 
-	return *this;
+        return *this;
     }
 
     /**
@@ -63,26 +59,26 @@ class Walk : public std::vector<Vector<N> > {
      * Returns the generated Vector<N>
      */
     Vector<N> step() {
-	std::vector<Vector<N> > translation_set = this->lattice.getTranslationSet();
+        std::vector<Vector<N> > translation_set = this->lattice.getTranslationSet();
 
-	size_t random_index = std::rand() % translation_set.size();
-    
-	Vector<N> random_element = translation_set.at(random_index);
+        size_t random_index = std::rand() % translation_set.size();
+        
+        Vector<N> random_element = translation_set.at(random_index);
 
-	this->push_back(random_element);
+        this->push_back(random_element);
 
-	return random_element;
+        return random_element;
     }
 
     /**
      * Apply this->lattice's basis to each vector in the walk
      */
     Walk &applyBasis() {
-	for (int i = 0; i < this->size(); ++i) {
-	    this->at(i) = this->lattice.applyBasis(this->at(i));
-	}
+        for (int i = 0; i < this->size(); ++i) {
+            this->at(i) = this->lattice.applyBasis(this->at(i));
+        }
 
-	return *this;
+        return *this;
     }
 
 
@@ -90,7 +86,7 @@ class Walk : public std::vector<Vector<N> > {
      * Get distance between start and end points of walk
      */
     double getDistance() {
-	return this->getDistanceBetween(0, this->size());
+	    return this->getDistanceBetween(0, this->size());
     }
 
     /**
@@ -98,13 +94,13 @@ class Walk : public std::vector<Vector<N> > {
      * exclusive point `end` of walk
      */
     double getDistanceBetween(size_t start, size_t end) {
-	Vector<N> res;
+        Vector<N> res;
 
-	for (size_t i = start; i < end; ++i) {
-	    res += this->at(i);
-	}
+        for (size_t i = start; i < end; ++i) {
+            res += this->at(i);
+        }
 
-	return res.getMagnitude();
+        return res.getMagnitude();
     }
 
     /**
@@ -113,20 +109,20 @@ class Walk : public std::vector<Vector<N> > {
      */
     Walk<N> accumulateVectors()
     {
-	Walk<N> walk(this->lattice);
-	Vector<N> running_total = this->at(0);
+        Walk<N> walk(this->lattice);
+        Vector<N> running_total = this->at(0);
 
-	// Initial value 
-	walk.push_back(running_total);
+        // Initial value 
+        walk.push_back(running_total);
 
-	/* Accumulate each vector to the running total, and push it
-	 * to the walk */
-	for (int i = 1; i < this->size(); ++i) {
-	    running_total += this->at(i);
-	    walk.push_back(running_total);
-	}
+        /* Accumulate each vector to the running total, and push it
+        * to the walk */
+        for (int i = 1; i < this->size(); ++i) {
+            running_total += this->at(i);
+            walk.push_back(running_total);
+        }
 
-	return walk;
+        return walk;
     }
 
     /**
@@ -134,18 +130,21 @@ class Walk : public std::vector<Vector<N> > {
      * with first column as x-component, second column as y-component, etc.
      */
     std::string toCSV() {
-	std::stringstream ss;
-	ss << *this;
-	return ss.str();
+        std::stringstream ss;
+        ss << *this;
+        return ss.str();
     }
 
     // Display each vector in walk, one on each line
     friend std::ostream& operator<<(std::ostream& os, const Walk<N> &walk) {
-	for (int i = 0; i < walk.size(); ++i)
-	    os << walk.at(i) << std::endl;
+        for (int i = 0; i < walk.size(); ++i)
+            os << walk.at(i) << std::endl;
 
-	return os;
+        return os;
     }
+
+private:
+    Lattice<N> lattice;
 };
 
 #endif /* WALK_H_ */

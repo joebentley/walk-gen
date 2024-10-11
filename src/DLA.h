@@ -21,11 +21,11 @@
  * output image we can build up a diffusion limited aggregation.
  */
 class DLA {
- public:
- DLA() : width(1000), height(1000), stickiness(1) { }
- DLA(double stickiness) : stickiness(stickiness) { } 
- DLA(int width, int height) : width(width), height(height), stickiness(1) { }
- DLA(int width, int height, double stickiness) : width(width), height(height), stickiness(stickiness) { }
+public:
+    DLA() : width(1000), height(1000), stickiness(1) { }
+    DLA(double stickiness) : stickiness(stickiness) { } 
+    DLA(int width, int height) : width(width), height(height), stickiness(1) { }
+    DLA(int width, int height, double stickiness) : width(width), height(height), stickiness(stickiness) { }
 
     int getHeight() { return height; }
     void setHeight(int height) { this->height = height; }
@@ -55,12 +55,12 @@ class DLA {
      * Returns (0, 0) if there are no seeds currently */
     Vector<2> simulate(Walk<2> &walk);
 
- private:
+private:
     int width, height;
 
     std::vector<Vector<2> > seeds;
 
- protected:
+protected:
     double stickiness;
 };
 
@@ -68,12 +68,12 @@ class DLA {
  * Class of DLAs with initial point seed at (0, 0)
  */
 class PointDLA : public DLA {
- public:
- PointDLA() : DLA(), init_radius(10), furthest_radius(0) { addSeed(Vector<2>(0, 0)); }
- PointDLA(double stickiness)
-     : DLA(stickiness), init_radius(10), furthest_radius(0) { addSeed(Vector<2>(0, 0)); }
- PointDLA(int init_radius, double stickiness)
-     : DLA(stickiness), init_radius(init_radius), furthest_radius(0) { addSeed(Vector<2>(0, 0)); }
+public:
+	PointDLA() : DLA(), init_radius(10), furthest_radius(0) { addSeed(Vector<2>(0, 0)); }
+ 	PointDLA(double stickiness)
+    : DLA(stickiness), init_radius(10), furthest_radius(0) { addSeed(Vector<2>(0, 0)); }
+ 	PointDLA(int init_radius, double stickiness)
+    : DLA(stickiness), init_radius(init_radius), furthest_radius(0) { addSeed(Vector<2>(0, 0)); }
 
     // Get radius of structure by calculating directly (SLOWER)
     double getStructureRadius();
@@ -94,7 +94,7 @@ class PointDLA : public DLA {
      * or this->init_radius + 50, whichever is larger */
     Vector<2> simulateInRadius(Walk<2> &walk);
 
- private:
+private:
     int init_radius;
     double furthest_radius;
 };
@@ -106,10 +106,10 @@ class PointDLA : public DLA {
  * So (badly named) width is actually half width
  */
 class LineDLA : public DLA {
- public:
- LineDLA() : DLA(200, 0), min_y(0) { init(); }
- LineDLA(double stickiness) : DLA(200, 0, stickiness), min_y(0) { init(); }
- LineDLA(int width, double stickiness) : DLA(width, 0, stickiness), min_y(0) { init(); }
+public:
+	LineDLA() : DLA(200, 0), min_y(0) { init(); }
+	LineDLA(double stickiness) : DLA(200, 0, stickiness), min_y(0) { init(); }
+	LineDLA(int width, double stickiness) : DLA(width, 0, stickiness), min_y(0) { init(); }
 
     /**
      * Add initial line of seeds */
@@ -123,7 +123,7 @@ class LineDLA : public DLA {
      * Simulate once, if the new seed is less than the current highest point,
      * set min_y */
     Vector<2> simulate(Walk<2> &walk);
- private:
+private:
     int min_y;
 };
 

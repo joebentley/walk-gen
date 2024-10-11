@@ -203,4 +203,3 @@ Vector<2> LineDLA::simulate(Walk<2> &walk)
 	    current.set(1, min_y - 10);
     }
 }
-
