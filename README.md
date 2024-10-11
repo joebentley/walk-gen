@@ -15,13 +15,22 @@ starting at the lowest and then increasing:
 
 To build:
 --------
+```
+mkdir Build
+cd Build
+cmake ..
+make
+```
 
-   `make clean && make`
-
-To build tests:
+To build with and run tests:
 ---------------
-
-   `make tests`
+```
+mkdir Build
+cd Build
+cmake -DBUILD_TESTING=ON ..
+make
+ctest
+```
 
 The built-in lattice types are:
 
