@@ -1,3 +1,6 @@
 .DS_Store
 Build
 .vscode
+env
+videos
+data.txt
