@@ -5,18 +5,11 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <gsl/gsl_rng.h>
 
 #include "Lattice.h"
 
 /* Random number generator parameters used across this program */
 namespace WalkRNG {
-    /* GSL random number generator, if using */
-    extern gsl_rng *rng;
-
-    /* Whether or not to use the GSL random number generator */
-    extern bool use_GSL;
-
     /* Whether or not we've generated a new random seed since program start */
     extern bool random_seeded;
 };
@@ -32,18 +25,7 @@ class Walk : public std::vector<Vector<N> > {
  Walk(Lattice<N> lattice) : lattice(lattice) {
 	/* If we haven't seeded the RNG yet... */
 	if (!WalkRNG::random_seeded) {
-	    if (!WalkRNG::use_GSL)
-		/* If not using GSL's random number generator, seed with time */
-		std::srand(std::time(0));
-	    else {
-		/* else set up GSL random number generator */
-		const gsl_rng_type *T;
-		
-		gsl_rng_env_setup();
-		
-		T = gsl_rng_default;
-		WalkRNG::rng = gsl_rng_alloc(T);
-	    }
+		std::srand((unsigned int)std::time(0));
 	    WalkRNG::random_seeded = true;
 	}
     }
@@ -63,9 +45,6 @@ class Walk : public std::vector<Vector<N> > {
 	for (int i = 0; i < length; ++i) {
 	    /* Get random index for the translation_set */
 	    size_t random_index;
-	    if (WalkRNG::use_GSL)
-		random_index = gsl_rng_get(WalkRNG::rng) % translation_set.size();
-	    else
 		random_index = std::rand() % translation_set.size();
 
 	    /* Get the element */
@@ -86,11 +65,7 @@ class Walk : public std::vector<Vector<N> > {
     Vector<N> step() {
 	std::vector<Vector<N> > translation_set = this->lattice.getTranslationSet();
 
-	size_t random_index;
-	if (WalkRNG::use_GSL)
-	    random_index = gsl_rng_get(WalkRNG::rng) % translation_set.size();
-	else 
-	    random_index = std::rand() % translation_set.size();
+	size_t random_index = std::rand() % translation_set.size();
     
 	Vector<N> random_element = translation_set.at(random_index);
 
@@ -125,7 +100,7 @@ class Walk : public std::vector<Vector<N> > {
     double getDistanceBetween(size_t start, size_t end) {
 	Vector<N> res;
 
-	for (int i = start; i < end; ++i) {
+	for (size_t i = start; i < end; ++i) {
 	    res += this->at(i);
 	}
 

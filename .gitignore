@@ -1,13 +1,3 @@
+.DS_Store
+Build
 
-.Trash
-*.dSYM
-
-walkrun
-runtests
-
-#*
-.#*
-
-tags
-
-*.o

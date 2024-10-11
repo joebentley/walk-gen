@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
-#include <gsl/gsl_rng.h>
 
 #include <iostream>
 
@@ -45,12 +44,7 @@ Vector<2> DLA::simulate(Vector<2> initial, Walk<2> &walk, int x_boundary, int y_
             }
             
             // Else use the probability
-            double r;
-
-            if (WalkRNG::use_GSL)
-                r = gsl_rng_uniform(WalkRNG::rng);
-            else
-                r = (double) std::rand() / RAND_MAX;
+            double r = std::rand() / RAND_MAX;
             
             if (r < stickiness) {
                 addSeed(current);
@@ -80,15 +74,8 @@ Vector<2> DLA::simulate(Walk<2> &walk)
 {
     /* Generate two random points within the rectangle with width `width`
      * and height `height */
-    int u1, u2;
-
-    if (WalkRNG::use_GSL) {
-        u1 = gsl_rng_get(WalkRNG::rng);
-        u2 = gsl_rng_get(WalkRNG::rng);
-    } else {
-        u1 = std::rand();
-        u2 = std::rand();
-    }
+    int u1 = std::rand();
+    int u2 = std::rand();
     
     int rand_x = (u1 % width) - (width / 2);
     int rand_y = (u2 % height) - (height / 2);
@@ -120,12 +107,7 @@ double PointDLA::getStructureRadius()
 Vector<2> PointDLA::simulateInRadius(Walk<2> &walk, int init_radius)
 {
     /* Generate new point on the radius of a circle with init_radius */
-    double angle;
-
-    if (WalkRNG::use_GSL)
-        angle = gsl_rng_uniform(WalkRNG::rng) * 2 * M_PI;
-    else
-        angle = ((double)std::rand() / RAND_MAX) * (2 * M_PI);
+    double angle = ((double)std::rand() / RAND_MAX) * (2 * M_PI);
 
     int x = (int)(init_radius * std::cos(angle));
     int y = (int)(init_radius * std::sin(angle));
@@ -168,11 +150,7 @@ Vector<2> LineDLA::simulate(Walk<2> &walk)
 {
     const int width = getWidth();
 
-    int x;
-    if (WalkRNG::use_GSL)
-        x = (gsl_rng_get(WalkRNG::rng) % (width * 2)) - width;
-    else
-        x = (std::rand() % (width * 2)) - width;
+    int x = (std::rand() % (width * 2)) - width;
 
     //int y = -std::abs(std::rand() % (std::abs(min_y) + 50));
     int y = min_y - 50;
@@ -200,12 +178,7 @@ Vector<2> LineDLA::simulate(Walk<2> &walk)
             }
             
             // Else use the probability
-            double r;
-
-            if (WalkRNG::use_GSL)
-                r = gsl_rng_uniform(WalkRNG::rng);
-            else
-                r = (double) std::rand() / RAND_MAX;
+            double r = std::rand() / RAND_MAX;
             
             if (r < stickiness) {
                 addSeed(current);

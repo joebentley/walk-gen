@@ -4,7 +4,6 @@
 #include <cstring>
 #include <cstdlib>
 #include <ctime>
-#include <gsl/gsl_rng.h>
 
 #include "DLA.h"
 #include "Walk.h"
@@ -13,7 +12,7 @@
 #define DEFAULT_LENGTH 200000 // default walk length
 
 const std::string USAGE = "walkrun [length] -a -s --3D --hex"
-    " -d [num-distances] --GSL --DLA "
+    " -d [num-distances] --DLA "
     " --lineDLA --linewidth [width] --fractal --stickiness [s] --silent";
 
 
@@ -42,8 +41,6 @@ int main(int argc, char *argv[])
 
     bool suppress_output = false;
 
-    bool use_GSL = false;
-
     /* Parse all the command-line args */
     for (int n = 1; n < argc; ++n) {
         if (!std::strcmp(argv[n], "-a")) {
@@ -70,8 +67,6 @@ int main(int argc, char *argv[])
             stickiness = std::atof(argv[++n]);
         } else if (!std::strcmp(argv[n], "--fractal")) {
             fractal_dimension = true;
-	} else if (!std::strcmp(argv[n], "--GSL")) {
-	    use_GSL = true;
 	} else if (!std::strcmp(argv[n], "--silent")) {
 	    suppress_output = true;
         } else if (!(walk_length = std::atoi(argv[n]))) {
@@ -79,9 +74,6 @@ int main(int argc, char *argv[])
             return -1;
         }
     }
-
-    // Whether or not to use GSL RNG
-    WalkRNG::use_GSL = use_GSL;
 
     // Use 3D lattice
     if (simplecubic || hexagonal) {
@@ -105,7 +97,7 @@ int main(int argc, char *argv[])
 		if (!suppress_output)
 		    std::cout << distance << std::endl;
 
-		random_walk.generate(walk_length).applyBasis();
+            random_walk.generate(walk_length).applyBasis();
 	    }
 
 	// Accumulate the vectors at each step
@@ -140,7 +132,7 @@ int main(int argc, char *argv[])
 		    dla.simulateInRadius(walk);
 
 		    // Output N vs. R
-		    int N = dla.getSeeds().size();
+		    auto N = dla.getSeeds().size();
 		    double R = dla.getFurthestRadius();
 
 		    if (!suppress_output)
@@ -201,9 +193,6 @@ int main(int argc, char *argv[])
 		std::cout << random_walk.toCSV() << std::endl;
 	}
     }
-
-    // Tear down RNG
-    gsl_rng_free(WalkRNG::rng);
 
     return 0;
 }
