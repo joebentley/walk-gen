@@ -74,7 +74,7 @@ public:
      * Apply this->lattice's basis to each vector in the walk
      */
     Walk &applyBasis() {
-        for (int i = 0; i < this->size(); ++i) {
+        for (size_t i = 0; i < this->size(); ++i) {
             this->at(i) = this->lattice.applyBasis(this->at(i));
         }
 
@@ -117,7 +117,7 @@ public:
 
         /* Accumulate each vector to the running total, and push it
         * to the walk */
-        for (int i = 1; i < this->size(); ++i) {
+        for (size_t i = 1; i < this->size(); ++i) {
             running_total += this->at(i);
             walk.push_back(running_total);
         }
