@@ -44,8 +44,9 @@ Vector<2> DLA::simulate(Vector<2> initial, Walk<2> &walk, int x_boundary, int y_
             }
             
             // Else use the probability
-            double r = std::rand() / RAND_MAX;
-            
+            double r = std::rand() / (double)RAND_MAX;
+            // std::cout << "s = " << stickiness << " r = " << r << std::endl;
+
             if (r < stickiness) {
                 addSeed(current);
                 return current;

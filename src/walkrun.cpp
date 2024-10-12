@@ -123,7 +123,6 @@ int main(int argc, char *argv[])
 
         // Generate a diffusion limited aggregation
         if (pointDLA) {
-            // std::cout << stickiness << std::endl;
             Walk<2> walk(lattice);
             PointDLA dla(stickiness);
 
