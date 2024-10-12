@@ -62,3 +62,11 @@ Usage string:
 For documentation of the command line arguments, see the short user guide in the
 report.
 
+TODO:
+-----
+
+* Attach to circle on edge rather then centre
+* Show random walks as they are happening (?)
+* Multiple walks at once
+* Multiple initial points
+
