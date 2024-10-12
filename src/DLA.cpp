@@ -12,7 +12,7 @@
 bool DLA::closeToSeed(Vector<2> point)
 {
     // Check if a seed is close to another seed
-    for (int i = 0; i < seeds.size(); ++i) {
+    for (size_t i = 0; i < seeds.size(); ++i) {
         if ((seeds.at(i) - point).getMagnitude() < 1.5) {
             return true;
         }
@@ -92,7 +92,7 @@ double PointDLA::getStructureRadius()
 
     Vector<2> initial(2, 0.0, 0.0);
 
-    for (int i = 0; i < getSeeds().size(); ++i) {
+    for (size_t i = 0; i < getSeeds().size(); ++i) {
         Vector<2> seed = getSeeds().at(i);
 
         double radius = (initial - seed).getMagnitude();

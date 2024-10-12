@@ -92,10 +92,10 @@ int main(int argc, char *argv[])
         if (distance) {
             // invariant: i random walk distances have been calculated
             for (int i = 0; i < distance_count; ++i) {
-            int distance = random_walk.getDistance();
+                int distance = random_walk.getDistance();
 
-            if (!suppress_output)
-                std::cout << distance << std::endl;
+                if (!suppress_output)
+                    std::cout << distance << std::endl;
 
                 random_walk.generate(walk_length).applyBasis();
             }
@@ -125,6 +125,7 @@ int main(int argc, char *argv[])
         if (pointDLA) {
             Walk<2> walk(lattice);
             PointDLA dla(stickiness);
+            std::cout << stickiness << std::endl;
 
             /* Generate until user manually stops it */
             for (;;) {
@@ -136,7 +137,7 @@ int main(int argc, char *argv[])
                     double R = dla.getFurthestRadius();
 
                     if (!suppress_output)
-                    std::cout << N << ", " << R << std::endl;
+                        std::cout << N << ", " << R << std::endl;
                 } else {
                     Vector<2> point = dla.simulateInRadius(walk);
 
@@ -176,12 +177,12 @@ int main(int argc, char *argv[])
         if (distance) {
             // invariant: i random walk distances have been calculated
             for (int i = 0; i < distance_count; ++i) {
-            int distance = random_walk.getDistance();
+                int distance = random_walk.getDistance();
 
-            if (!suppress_output)
-                std::cout << distance << std::endl;
+                if (!suppress_output)
+                    std::cout << distance << std::endl;
 
-            random_walk.generate(walk_length).applyBasis();
+                random_walk.generate(walk_length).applyBasis();
             }
         // Accumulate the vectors at each step
         } else if (accumulate) {

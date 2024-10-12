@@ -10,7 +10,7 @@
  * and hence we wouldn't be able to access N in the cpp file */
 
 /* N-dimensional Vector class */
-template<unsigned int N>
+template<int N>
 class Vector {
 public:
     /* Initialize components to zero by default */

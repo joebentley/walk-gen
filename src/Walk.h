@@ -137,7 +137,7 @@ public:
 
     // Display each vector in walk, one on each line
     friend std::ostream& operator<<(std::ostream& os, const Walk<N> &walk) {
-        for (int i = 0; i < walk.size(); ++i)
+        for (size_t i = 0; i < walk.size(); ++i)
             os << walk.at(i) << std::endl;
 
         return os;
